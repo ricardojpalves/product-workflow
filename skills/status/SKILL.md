@@ -26,10 +26,25 @@ Project status snapshot. Reads project state files and outputs a structured repo
 
 In parallel:
 1. Project's Obsidian Kanban board (path from config — usually `/Users/Local Projects/Obsidian-Kanban/<project>/<project>-board.md`)
-2. Project's `memory.md` (last 3 entries)
-3. Project's `decisions.md` (last 5 decisions)
+2. Project's `memory.md` (last 3 entries — pull "Open questions" section from each)
+3. Project's `decisions.md` (last 5 decisions + scan for any unresolved decisions like "Status: ⚠️ Open")
 4. Project's `plan.md` (current phase)
 5. Project's `PRD.md` (Open Questions section)
+6. (If exists) Project's `ai-rules.md` (any rules marked as TODO / unconfirmed)
+
+## Open questions aggregation
+
+Aggregate open questions from ALL sources into a single deduplicated list with **age**:
+
+```
+❓ Open questions (X total · Y >7d old)
+  • [Question] · From: PRD · Age: 12d ⚠️
+  • [Question] · From: memory.md (2026-04-28) · Age: 12d ⚠️
+  • [Question] · From: decisions.md (Status: Open) · Age: 5d
+  • [Question] · From: PRD · Age: 2d
+```
+
+**Age signal:** Questions older than 7 days get ⚠️ — they're a smell. Either resolve, escalate, or explicitly close as "won't answer."
 
 ## Output: Default snapshot
 

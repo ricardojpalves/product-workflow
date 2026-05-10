@@ -1,18 +1,20 @@
 ---
 name: triad-review
-description: Use mid-project when scope shifts, before adding a major feature, after significant pivots, or when feeling unsure about direction. Dispatches PM + Design + Engineering subagents in parallel to critique current PRD/architecture/rules from each lens. Returns consolidated findings.
+description: Use mid-project when scope shifts, before adding a major feature, after significant pivots, or when feeling unsure about direction. Runs PM + Design + Engineering through a 3-round discussion (independent critique → cross-read & converge → synthesis), ending in a force-ranked top-3 action list. Surfaces conflicts, marks consensus, prompts decision-supersede flow.
 ---
 
 # /triad-review
 
 ## Overview
 
-The "stop and think" button. Three subagents (PM, Design, Engineering) review the project's current PRD, architecture, and AI rules in parallel — each from their lens. Consolidated findings surface conflicts, gaps, and risks before you commit to a direction.
+The "stop and think" button. Three roles (PM, Design, Engineering) work through a structured **3-round discussion** of the project's current PRD, architecture, and AI rules — independent critique, cross-read and converge, then synthesis.
+
+Final output is a **force-ranked top-3 action list**, plus full findings and a sub-flow to supersede prior decisions if the triad's conclusions contradict them.
 
 This is the mid-project version of the triad review that runs at the end of `/start-project`.
 
 ## When to use
-- Scope is changing (feature added or removed)
+- Scope is changing (feature added, removed, reshaped)
 - Stakeholder requirement just landed
 - Pivoting direction
 - About to commit to a major architectural decision
@@ -20,7 +22,7 @@ This is the mid-project version of the triad review that runs at the end of `/st
 
 ## When not to use
 - Tiny changes (renaming a button)
-- For tactical bug fixes (use `/code-audit`)
+- Tactical bug fixes (use `/code-audit`)
 - When PRD/architecture/rules don't exist yet (use `/start-project`)
 
 ## Inputs
@@ -29,7 +31,7 @@ Read in parallel before dispatching:
 - PRD.md
 - architecture.md
 - ai-rules.md
-- decisions.md (last 5)
+- decisions.md (last 10 — needed to detect supersede candidates)
 - memory.md (last 3 sessions)
 
 User provides the **specific question or change** to review:
@@ -41,27 +43,42 @@ User provides the **specific question or change** to review:
 ## Workflow
 
 ```
-1. Read context files in parallel
+1. Read context files in parallel.
 
-2. Capture user's review focus
-   → If user gave a specific question, use it
+2. Capture user's review focus.
+   → If user gave a specific question, use it.
    → If open-ended, ask: "Anything specific you want them to focus on?"
 
-3. Dispatch 3 subagents in parallel using dispatching-parallel-agents skill
-   → Each gets: full PRD + architecture + ai-rules + recent decisions + user's focus
-   → Each gets a role-specific prompt (see triad-prompts.md in start-project skill)
+3. ROUND 1 — Independent critique (parallel)
+   → Use dispatching-parallel-agents skill.
+   → Each role gets full context + user's focus + their lens-specific prompt.
+   → Each role is BLIND to what the others are reviewing.
+   → Output: severity-grouped findings per role.
 
-4. Consolidate findings
-   → Group by severity (🔴/🟡/🟢)
-   → Highlight conflicts where reviewers disagreed
-   → Mark consensus items where all three agreed
+4. ROUND 2 — Discussion & convergence (parallel)
+   → Use dispatching-parallel-agents skill again.
+   → Each role gets their Round 1 + the other two roles' Round 1.
+   → Each role: agrees / disagrees / refines / adds new.
+   → Output: agreements, refinements, conflicts, new findings.
 
-5. Present to user
-   → Show consolidated report
-   → Ask: "Which findings do you want to act on?"
+5. ROUND 3 — Synthesis (main thread)
+   → Compile severity-grouped list combining R1 + R2.
+   → Resolve remaining conflicts with recommendation + reasoning.
+   → Force-rank "Top 3 to act on now" with owner + deadline.
+   → Identify decisions that need to be superseded in decisions.md.
 
-6. Update artifacts
-   → If decisions need to change → update decisions.md (mark old one superseded)
+6. Present consolidated report to user.
+
+7. Sub-flow: confirm Top 3 actions
+   → For each, ask user: "Owner? Deadline?"
+   → Add to memory.md as in-progress
+
+8. Sub-flow: supersede prior decisions (if any)
+   → For each candidate, ask user: "Supersede this decision? (y/n)"
+   → If yes, prompt for replacement decision details
+   → Update decisions.md (mark old as ⚠️ Superseded; add new entry)
+
+9. Update artifacts
    → If scope changes → update PRD.md (Scope Table)
    → If architecture shifts → update architecture.md
    → If rules need adjustment → update ai-rules.md
@@ -70,48 +87,55 @@ User provides the **specific question or change** to review:
 
 ## Triad prompts
 
-Reuse the prompts from `start-project/triad-prompts.md`. The structure is identical:
-- PM: viability / scope / metrics / strategic risk
-- Design: UX / flows / friction / a11y / coherence
-- Engineering: feasibility / complexity / security / scaling / build risk
-
-Add the user's specific focus to all three prompts.
+The full 3-round prompt structure lives in `start-project/triad-prompts.md` (shared between `/start-project` end-of-flow and `/triad-review`). See that file for:
+- Round 1 prompts (3 roles, blind)
+- Round 2 universal preamble + role-specific framing
+- Round 3 synthesis structure
+- Output format presented to user
 
 ## Output format
 
+See `start-project/triad-prompts.md` "Output format presented to user" section. The key differentiator vs old structure: **Top 3 force-ranked actions appear BEFORE the full findings**, so action priority is never lost in the noise.
+
+## Decision-supersede sub-flow
+
+When Round 3 identifies that a prior decision is contradicted by the triad's findings:
+
 ```
-🔍 Triad Review — [Project Name]
-📅 [Date] · Focus: [user's question or "open review"]
+🔄 Decision supersede candidate
 
-🔴 Critical (X)
-  • [Issue] — flagged by [PM / Design / Eng]
+Prior decision: "[Title from decisions.md]"
+  Date: [original date]
+  Status: Active
+  Reasoning: [original reasoning]
 
-🟡 Important (X)
-  • [Issue] — flagged by [PM / Design / Eng]
+Triad finding that contradicts it:
+  [Finding]
 
-🟢 Suggestions (X)
-  • [Item] — from [PM / Design / Eng]
+Recommended supersede:
+  New decision: [Title]
+  Reasoning: [Why this changes things]
 
-✅ Consensus — all three agreed
-  • [What's strong]
-
-🤔 Conflicts — reviewers disagreed
-  • Topic: [X]
-    PM says: [...]
-    Eng says: [...]
-    Recommendation: [resolution]
-
-📋 Next step:
-  → Which findings to incorporate? (mark with ✓)
-  → Update PRD / architecture / rules as needed
-  → Log decision to decisions.md with rationale
+Apply supersede? (y/n)
 ```
+
+If yes:
+1. Edit decisions.md: change old decision status to `⚠️ Superseded by [new title] on [today]`
+2. Append "Why superseded:" line to old decision
+3. Add new decision entry at top with full template
+4. Cross-reference both ways
+
+If no:
+- Note the conflict in memory.md but leave decision active
+- User accepts the risk explicitly
 
 ## Common mistakes
 
 | Mistake | Fix |
 |---|---|
+| Skipping Round 2 (discussion) | Round 2 is the whole point — without it, you have 3 monologues |
+| Burying top-3 actions in long report | Top 3 must appear FIRST in the output |
 | Running triad on tiny questions | Triad is for scope/strategy. Use `/code-audit` for code, normal chat for tactics. |
 | Skipping the user's focus | Always ask what to review. Open reviews tend to surface noise. |
 | Not logging the outcome | Triad outcomes are decisions — they belong in decisions.md, not just chat. |
-| Treating reviewer reports as gospel | They're inputs. User decides what to incorporate. |
+| Forgetting to check supersede candidates | Triad findings that contradict prior decisions MUST trigger the supersede sub-flow |
