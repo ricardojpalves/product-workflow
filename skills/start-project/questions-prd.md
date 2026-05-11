@@ -64,6 +64,24 @@ This populates the Scope Table.
 
 ---
 
+## Q4.5 — Edge cases V1 must handle gracefully
+
+**What happens when things go wrong?**
+
+Examples to seed thinking:
+- Network drops mid-action
+- User input is unexpected (too large, malformed, empty, hostile)
+- Third-party API rate-limited or down
+- Browser tab killed mid-flow
+- Permission denied (camera, location, file access)
+- Concurrent users editing same thing
+
+Ask the user to list 3–5 edge cases V1 must handle gracefully. These don't all need full solutions — but acknowledging them now prevents triad surprise and surfaces hidden complexity early.
+
+**Recommendation framing:** "Most apps die from edge cases, not happy paths. Even a 1-line 'we show toast X' counts as a decision."
+
+---
+
 ## Q5 — Success Criteria
 
 How will you know V1 is working?
@@ -76,6 +94,17 @@ How will you know V1 is working?
 **Suggestions:**
 - Mix quant + qual
 - Always include at least one anti-metric (signal of misuse / bad outcome)
+
+**Optional: hypothesis framing for exploratory metrics**
+
+If a metric is more bet than commitment, phrase as a testable hypothesis:
+
+> **We believe [X] because [Y]. We'll know we're right when [Z].**
+
+Example:
+> We believe webinar hosts will trigger 3+ overlays per meeting because they currently juggle multiple tools and want unified surface. We'll know we're right when median overlays-per-meeting is ≥3 by week 4.
+
+Use when the success criterion is exploratory rather than locked. Doesn't replace quant/qual/anti-metric — sits alongside.
 
 ---
 

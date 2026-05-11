@@ -62,6 +62,12 @@ Tracked here so they don't get forgotten — but explicitly not in V1.
 
 ## Risks & dependencies
 
-| Risk | Likelihood | Impact | Mitigation |
-|---|---|---|---|
-| [Risk] | High/Med/Low | High/Med/Low | [What we'll do] |
+Classified per pre-mortem: 🐯 **Tiger** (high likelihood + high impact, act now) · 📄 **Paper Tiger** (looks scary, unlikely or easily mitigated) · 🐘 **Elephant** (slow-moving, will hit eventually).
+
+| Risk | Bucket | Mitigation | Target phase |
+|---|:-:|---|:-:|
+| [Risk] | 🐯 | [Action — usually in Phase 0/1] | 0 / 1 |
+| [Risk] | 📄 | [Monitor / single-line mitigation] | — |
+| [Risk] | 🐘 | [Plan to address by this phase] | 3 / 4 |
+
+**Rule:** Every 🐯 must have a corresponding action in Phase 0 or Phase 1 above.

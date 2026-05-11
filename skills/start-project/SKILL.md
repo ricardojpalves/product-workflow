@@ -47,25 +47,34 @@ Project kickoff workflow. Builds the four foundational documents (PRD → Archit
    → Suggest from a baseline of common security + quality rules
    → Draft ai-rules.md → user confirms
 
-5. Triad review (auto-runs at end of doc creation)
+5. Pre-mortem (runs BEFORE triad review)
+   → See pre-mortem.md
+   → Ask "imagine it failed — what killed it?"
+   → Classify 5–10 risks as 🐯 Tiger / 📄 Paper Tiger / 🐘 Elephant
+   → Output as table → user confirms → feeds into triad
+
+6. Triad review (auto-runs at end of doc creation)
    → Invoke dispatching-parallel-agents skill
    → Dispatch 3 subagents in parallel: PM, Design, Engineering
-   → Each critiques the 3 docs from their lens (see triad-prompts.md)
-   → Consolidate findings → present to user
-   → User decides which to incorporate → docs updated
+   → Each critiques the 3 docs + pre-mortem classification (see triad-prompts.md)
+   → 3-round discussion (independent → cross-read → synthesis)
+   → Output: visual tables with Top 3 actions ranked first
+   → User decides which findings to incorporate → docs updated
 
-6. Plan
-   → Now (and only now) draft plan.md from locked PRD/Architecture/Rules
+7. Plan
+   → Now (and only now) draft plan.md from locked PRD/Architecture/Rules + pre-mortem
+   → Tigers become Phase 0 / Phase 1 actions
+   → Paper Tigers + Elephants go in Risks section with target phase
    → Phased roadmap → populate Obsidian Kanban Queue
 
-7. DESIGN.md (only if UI project)
+8. DESIGN.md (only if UI project)
    → Trigger DESIGN.md questionnaire (per user's CLAUDE.md global rule)
 
-8. Final memory + decisions seed
+9. Final memory + decisions seed
    → Create memory.md with kickoff entry
    → Create decisions.md with any decisions made during discovery
 
-9. Confirmation
+10. Confirmation
    → Show all files created
    → Suggest next step: "Ready to build? Run /do to execute Phase 1 of plan.md"
 ```
@@ -111,6 +120,7 @@ All from `templates/` in the product-workflow repo:
 ## Sub-references
 
 - Question scripts: `questions-prd.md`, `questions-architecture.md`, `questions-rules.md`
+- Pre-mortem classification: `pre-mortem.md`
 - Triad agent prompts: `triad-prompts.md`
 
 ## Common mistakes

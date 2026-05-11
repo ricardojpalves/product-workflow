@@ -4,6 +4,13 @@ The triad is an **internal discussion among three roles**, not three independent
 
 Use the `dispatching-parallel-agents` skill to run rounds 1 and 2. Round 3 (synthesis) runs in the main thread.
 
+**Inputs to all rounds:** PRD.md + architecture.md + ai-rules.md + pre-mortem classification table (`pre-mortem.md` output) + user's specific focus.
+
+Each role critiques the **pre-mortem classification** alongside the docs:
+- PM: Are Tigers correctly classified? Any business risks missed?
+- Design: Any UX risks misclassified as Paper Tigers?
+- Eng: Any technical Tigers hiding as Elephants?
+
 ---
 
 ## The 3-round structure
@@ -162,58 +169,95 @@ After Round 2 returns, the main thread synthesizes:
 
 ## Output format presented to user
 
+The triad output is the moment of truth — it must be **scannable in seconds**. Use tables. Lead with the action list. Use brief language.
+
+```markdown
+# 🔍 Triad Review — [Project Name]
+**Date:** [YYYY-MM-DD] · **Focus:** [user's question or "open review"]
+
+---
+
+## 🎯 Top 3 — Act on now
+
+| # | Action | Owner | Deadline | Severity |
+|:-:|---|---|:-:|:-:|
+| 1 | [Action — keep under 60 chars] | [Role/Name] | [YYYY-MM-DD] | 🔴 |
+| 2 | [Action] | [Role/Name] | [YYYY-MM-DD] | 🔴 |
+| 3 | [Action] | [Role/Name] | [YYYY-MM-DD] | 🔴 |
+
+**Why these three:** [One sentence on the ranking logic — what made these top vs the rest.]
+
+---
+
+## 🧭 Triad positions
+
+Where each role landed on each finding. `🔴 critical · 🟡 important · 🟢 suggestion · ✅ strong · ⚪ no opinion`
+
+| Finding | PM | Design | Eng | Consensus |
+|---|:-:|:-:|:-:|:-:|
+| [Finding — keep concise] | 🔴 | 🟡 | 🔴 | 🔴 |
+| [Finding] | 🔴 | 🟢 | 🟡 | 🔴 |
+| [Finding] | 🟡 | 🔴 | 🔴 | 🔴 |
+| [Finding] | 🟢 | 🟡 | 🟡 | 🟡 |
+| [Strength — what works] | ✅ | ✅ | ✅ | ✅ |
+
+---
+
+## 🤔 Conflicts resolved
+
+| Topic | PM position | Design position | Eng position | Resolution |
+|---|---|---|---|---|
+| [Topic — concise] | [Brief] | [Brief] | [Brief] | [What we're doing + 1-line why] |
+
+*(Omit this section if no conflicts surfaced.)*
+
+---
+
+## 🔄 Decisions to supersede
+
+| Prior decision | Date | Why it no longer holds | Suggested replacement |
+|---|:-:|---|---|
+| [Title from decisions.md] | [Date] | [Brief] | [New approach] |
+
+*(Omit this section if no decisions need re-evaluation. Each row triggers the supersede sub-flow.)*
+
+---
+
+## 📋 Full findings (reference)
+
+<details>
+<summary>Expand to see all findings grouped by severity</summary>
+
+**🔴 Critical (X)**
+- [Finding] — flagged by [PM / Design / Eng]
+- [Finding] — flagged by [PM / Design / Eng]
+
+**🟡 Important (X)**
+- [Finding] — flagged by [PM / Design / Eng]
+
+**🟢 Suggestions (X)**
+- [Finding] — flagged by [PM / Design / Eng]
+
+**✅ Consensus — strengths**
+- [Item agreed strong by all three]
+
+</details>
+
+---
+
+## ⏭️ Next step
+
+1. **Confirm Top 3** — assign owners and deadlines (if not already set)
+2. **Run supersede sub-flow** for each row in the "Decisions to supersede" table
+3. **Update artifacts:** I'll patch PRD / architecture / ai-rules to reflect accepted findings
+4. **Log this review** to memory.md with outcomes
 ```
-🔍 Triad Review — [Project Name]
-📅 [Date] · Focus: [user's question or "open review"]
 
-──────────────────────────────────────────────────────────────────────
-TOP 3 — ACT ON NOW (force-ranked)
-──────────────────────────────────────────────────────────────────────
+### Rules for the table content
 
-  1. 🔴 [Action] — Owner: [role] · Deadline: [date]
-     Why: [one-line reasoning]
-
-  2. 🔴 [Action] — Owner: [role] · Deadline: [date]
-     Why: [one-line reasoning]
-
-  3. 🔴 [Action] — Owner: [role] · Deadline: [date]
-     Why: [one-line reasoning]
-
-──────────────────────────────────────────────────────────────────────
-FULL FINDINGS
-──────────────────────────────────────────────────────────────────────
-
-🔴 Critical (X)
-  • [Finding] — flagged by [role(s)]
-
-🟡 Important (X)
-  • [Finding] — flagged by [role(s)]
-
-🟢 Suggestions (X)
-  • [Finding] — flagged by [role(s)]
-
-✅ Consensus — all three agreed strong:
-  • [Item]
-
-🤔 Conflicts resolved:
-  • Topic: [X]
-    Positions: PM said [...] · Eng said [...]
-    Resolution: [...] — Reasoning: [...]
-
-──────────────────────────────────────────────────────────────────────
-DECISIONS TO SUPERSEDE (if any)
-──────────────────────────────────────────────────────────────────────
-
-  • [Prior decision title from decisions.md] — needs re-evaluation
-    Why: [Triad finding that contradicts it]
-    Suggested supersede: [What replaces it]
-
-──────────────────────────────────────────────────────────────────────
-NEXT STEP
-──────────────────────────────────────────────────────────────────────
-
-  → Confirm Top 3 actions and assign owners
-  → For each superseded decision, run the supersede sub-flow
-  → I'll update PRD/Architecture/Rules to reflect accepted findings
-  → Log this review + outcome to memory.md
-```
+- **Action column:** under 60 characters. Verb-first. ("Resolve broadcasting model" not "We need to figure out the broadcasting model").
+- **Finding column:** under 70 characters. Noun-phrase or short sentence. ("Broadcasting model unresolved" not "There's an issue with how we'll broadcast to attendees").
+- **Position cells:** ONE emoji only. No text inside cells. Use ⚪ if a role didn't weigh in.
+- **Consensus column:** the severity of the *worst* role's position (most cautious wins). Three ✅ = unanimous strength.
+- **Resolution column:** what we're actually doing + 1-line reasoning. No "we should consider" — be decisive.
+- **Full findings section** is collapsed by default (using `<details>`). The tables ARE the report. The full findings are reference material.
