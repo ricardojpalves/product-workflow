@@ -220,6 +220,30 @@ A few opinions baked in. If you disagree with any, fork and override:
 
 ---
 
+## Roadmap
+
+Four improvements identified from real practitioner experience with vibe-coded products. Contributions welcome on any of these.
+
+**1. Competitor research step in `/start-project`**
+A structured step before the DESIGN.md questionnaire: research 10 competitors (onboarding, page structures, fonts, spacing, cards, trust signals) using Mobbin, 21st.dev, and Pinterest. Goal: give the product a premium feel so users trust it on arrival. Currently absent from the discovery flow.
+
+**2. Code health mode in `/status`**
+A 4th mode alongside Default / S.P.A.R.K. / Stakeholder — an end-of-day code health check using these prompts:
+- What is fragile here?
+- What did we duplicate?
+- What could break in production?
+- What should we clean before moving forward?
+
+Takes 10–15 minutes. Catches compounding problems before they become rewrites. Validated by practitioners shipping 4+ products.
+
+**3. Distribution question in PRD discovery**
+The current PRD discovery captures *what* to build but doesn't explicitly ask *how people will find it* before the plan locks. A single grounded question — "What's your distribution channel for the first 100 users?" — surfaces this gap early, when it's cheap to address. Backed by multiple case studies where distribution was treated as an afterthought and failed.
+
+**4. `/pre-launch` skill**
+A launch-readiness checklist that runs before going public or handling real user data. Combines: N+1 query check, exposed API keys audit, error handling on critical flows, payment test coverage, staging/prod separation, SMTP switch (Resend/Postmark), RLS policy audit, Stripe webhook verification, rate limiting on auth endpoints, onboarding email sequence. Natural hook to trigger `/security-audit` as the final step.
+
+---
+
 ## Contributing
 
 The skills are deliberately opinionated. PRs welcome if they sharpen the existing skills without bloating the surface area. For new ideas, fork — different defaults serve different builders.
