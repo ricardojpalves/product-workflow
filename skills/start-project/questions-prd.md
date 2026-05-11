@@ -108,6 +108,29 @@ Use when the success criterion is exploratory rather than locked. Doesn't replac
 
 ---
 
+## Q5.5 — Distribution (all projects)
+
+How will your first 100 users find this?
+
+This question is asked before the plan locks — not after launch. Distribution that's treated as an afterthought after building is one of the most common causes of real products going nowhere. Vibe coders in particular lose months building in private and then discover nobody shows up.
+
+**Probe if vague:** "Who's the first person outside your circle who uses this? How do they find it? What would make them share it?"
+
+**Suggestions (tailor to Q1 + Q2):**
+1. Community distribution — Reddit, Slack groups, Discord, forums where your target user already lives. Find the right room, help genuinely, mention the tool once.
+2. Content distribution — SEO articles, AEO (Answer Engine Optimization), social posts, newsletter. Slower but compounds. Best when the problem is well-searched.
+3. Direct outreach — email, LinkedIn, cold DMs to your target segment. Works fastest for B2B or when you can identify prospects precisely.
+4. Product-led — free tier, virality hook, or embed into existing workflow so product sells itself.
+5. Partnerships — piggyback on a larger platform, tool, or audience that already serves your segment.
+
+**Recommendation framing:** Recommend the one most realistic given the user's context (solo? B2B? consumer?) and existing audience (do they have any?). If they have zero distribution assets: community first.
+
+**Then ask:** "And what's your plan for the *first* 10 users — before any of the above matters?"
+
+The answer to this often reveals whether the product is solving a real, findable problem.
+
+---
+
 ## Q6 (work projects only) — RACI
 
 Who plays each role? Be specific with names.

@@ -1,17 +1,18 @@
 ---
 name: status
-description: Use when user asks "where are we?", "what's the project status?", "give me an update", or wants a snapshot of current state. Reads kanban + memory.md + decisions.md and outputs a structured status report. Supports daily-update mode (S.P.A.R.K.) and stakeholder-report mode (What/Who/When/How).
+description: Use when user asks "where are we?", "what's the project status?", "give me an update", "what's fragile?", "end of day review", or wants a snapshot of current state. Reads kanban + memory.md + decisions.md and outputs a structured status report. Supports daily-update mode (S.P.A.R.K.), stakeholder-report mode (What/Who/When/How), and code-health mode (end-of-day fragility check).
 ---
 
 # /status
 
 ## Overview
 
-Project status snapshot. Reads project state files and outputs a structured report. Supports three output modes:
+Project status snapshot. Reads project state files and outputs a structured report. Supports four output modes:
 
 1. **Default snapshot** — quick visual of current state (in progress / queued / blocked / done)
 2. **S.P.A.R.K.** — daily update format for personal work tracking
 3. **Stakeholder report** — long-form What/Who/When/How for sharing with others
+4. **Code health** — end-of-day code review using 4 practitioner-validated prompts
 
 ## When to use
 - User asks for project status, update, or snapshot
@@ -131,6 +132,44 @@ Priority order:
 2. Finish In Progress before starting new
 3. Pick highest-priority Queue item that doesn't depend on a blocker
 4. If no blockers and clear path: surface next phase milestone
+
+## Output: Code health mode
+
+Triggered by `/status health` or when user asks "what's fragile?", "is the code getting messy?", or "end of day review".
+
+Takes 10–15 minutes. Run against the current codebase to catch compounding problems before they become rewrites.
+
+Ask these four questions, one at a time, reviewing relevant files for each:
+
+```
+🔍 Code Health Check — [Date]
+
+1. What is fragile here?
+   [Identify unstable patterns, hardcoded assumptions, missing error handling,
+    or places one change would break multiple things]
+
+2. What did we duplicate?
+   [Find repeated logic, copy-pasted blocks, inconsistent implementations of
+    the same concept across files]
+
+3. What could break in production?
+   [Flag untested paths, missing edge case handling, potential race conditions,
+    unvalidated inputs, unhandled API failures]
+
+4. What should we clean before moving forward?
+   [Name the specific debt that will compound — not everything, just what
+    will actively slow down the next phase]
+
+---
+🎯 Recommended cleanup: [1–3 concrete actions, prioritised]
+⏱️ Estimated effort: [rough time for each]
+```
+
+After output: ask "Want me to add any of these to the Kanban Queue?" Confirm before adding.
+
+**Key principle:** This is not a full audit. It's a daily smell-check. If a finding looks serious (production risk), suggest running `/security-audit` or `/code-audit` for a deeper pass.
+
+---
 
 ## Common mistakes
 

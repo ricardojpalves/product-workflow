@@ -68,7 +68,11 @@ Project kickoff workflow. Builds the four foundational documents (PRD → Archit
    → Phased roadmap → populate Obsidian Kanban Queue
 
 8. DESIGN.md (only if UI project)
-   → Trigger DESIGN.md questionnaire (per user's CLAUDE.md global rule)
+   → Competitor research first (before questionnaire):
+     Ask user to collect screenshots of 5–10 direct competitors using Mobbin, 21st.dev, Pinterest
+     Review: onboarding flow, page structure, fonts, spacing, card patterns, trust signals, CTA language
+     Goal: give the product a premium, trusted feel — not copy, but calibrate taste
+   → Then trigger DESIGN.md questionnaire (per user's CLAUDE.md global rule)
 
 9. Final memory + decisions seed
    → Create memory.md with kickoff entry
@@ -132,3 +136,5 @@ All from `templates/` in the product-workflow repo:
 | Skipping the "Out of Scope" section | This is the anti-scope-creep mechanism — never skip |
 | Rushing past vague answers | Push back: "Can you narrow that further?" |
 | Not asking solo vs work upfront | Routes to wrong PRD template |
+| Skipping the distribution question | "We'll figure out marketing later" is how real products die quietly — ask Q5.5 before the plan locks |
+| Starting DESIGN.md without competitor research | AI-default aesthetics signal "vibe slop" to users — calibrate taste first |

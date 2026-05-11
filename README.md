@@ -16,10 +16,11 @@ The result was predictable. Scope crept on every project. Decisions made on Mond
 
 So I built this workflow. It's not a 40-skill product-management marketplace. It's four composable skills, each doing one job, that bring the discipline I used to have on bigger teams to the solo builds I do now:
 
-1. **`/start-project`** — discovery-first kickoff that produces a PRD, an architecture doc, an AI-rules doc, and a phased plan, in that order. With a product-triad review at the end (Product, Design, Engineering critique in parallel, debate, agree, hand back a top-3 action list).
+1. **`/start-project`** — discovery-first kickoff that produces a PRD, an architecture doc, an AI-rules doc, and a phased plan, in that order. With a product-triad review at the end (Product, Design, Engineering critique in parallel, debate, agree, hand back a top-3 action list). Includes a competitor research step before design, and a distribution question before the plan locks.
 2. **`/triad-review`** — the same triad, on-demand, for mid-project pivots and scope shifts. The "stop and think" button.
 3. **`/code-audit`** — an independent code review run by a *different* LLM (Codex CLI by default). Different model = real critique, not Claude grading its own homework.
-4. **`/status`** — a project snapshot, with daily-update and stakeholder-report modes.
+4. **`/status`** — a project snapshot, with daily-update, stakeholder-report, and code-health modes.
+5. **`/pre-launch`** — a launch-readiness checklist that runs before going public. Covers code quality, infrastructure, auth, payments, email, and growth basics. Final step before real users arrive.
 
 The framework is opinionated. It assumes you want fewer features shipped well, not more features shipped fast. It treats the **Out-of-Scope list as more important than the In-Scope list**. It refuses to let you build before deciding what you're building. None of that is novel — it's the boring, table-stakes product practice that exists everywhere except in solo vibecoding.
 
@@ -46,10 +47,11 @@ Two PRD templates:
 
 | Command | When to use it |
 |---|---|
-| `/start-project` | New project. Discovery → 4 docs → pre-mortem → triad review → kanban setup. |
-| `/status` | Anytime. Snapshot (in progress / blocked / queued / done) + S.P.A.R.K. daily mode + stakeholder report mode. |
+| `/start-project` | New project. Discovery → 4 docs → pre-mortem → triad review → kanban setup. Includes competitor research before DESIGN.md and a distribution question before the plan locks. |
+| `/status` | Anytime. Snapshot (in progress / blocked / queued / done) + S.P.A.R.K. daily mode + stakeholder report mode + code health mode (end-of-day fragility check). |
 | `/code-audit` | After implementing a feature. Independent code review by Codex CLI. Surfaces bugs, security issues, rule violations. |
 | `/triad-review` | Mid-project, when scope shifts. PM + Design + Engineering subagents in a 3-round discussion (independent critique → cross-read → synthesis), ending in a force-ranked top-3 action list. |
+| `/pre-launch` | Before going public. Launch-readiness checklist: code quality, infrastructure, auth/data, payments, email, growth basics. Final step before real users. |
 
 ### The product triad
 
@@ -217,30 +219,6 @@ A few opinions baked in. If you disagree with any, fork and override:
 - DESIGN.md format: [Google Labs](https://github.com/google-labs-code/design.md)
 - Pre-mortem classification (Tigers / Paper Tigers / Elephants): patterns from [phuryn/pm-skills](https://github.com/phuryn/pm-skills) and [product-on-purpose/pm-skills](https://github.com/product-on-purpose/pm-skills)
 - Skill structure conventions: Anthropic's skill authoring best practices
-
----
-
-## Roadmap
-
-Four improvements identified from real practitioner experience with vibe-coded products. Contributions welcome on any of these.
-
-**1. Competitor research step in `/start-project`**
-A structured step before the DESIGN.md questionnaire: research 10 competitors (onboarding, page structures, fonts, spacing, cards, trust signals) using Mobbin, 21st.dev, and Pinterest. Goal: give the product a premium feel so users trust it on arrival. Currently absent from the discovery flow.
-
-**2. Code health mode in `/status`**
-A 4th mode alongside Default / S.P.A.R.K. / Stakeholder — an end-of-day code health check using these prompts:
-- What is fragile here?
-- What did we duplicate?
-- What could break in production?
-- What should we clean before moving forward?
-
-Takes 10–15 minutes. Catches compounding problems before they become rewrites. Validated by practitioners shipping 4+ products.
-
-**3. Distribution question in PRD discovery**
-The current PRD discovery captures *what* to build but doesn't explicitly ask *how people will find it* before the plan locks. A single grounded question — "What's your distribution channel for the first 100 users?" — surfaces this gap early, when it's cheap to address. Backed by multiple case studies where distribution was treated as an afterthought and failed.
-
-**4. `/pre-launch` skill**
-A launch-readiness checklist that runs before going public or handling real user data. Combines: N+1 query check, exposed API keys audit, error handling on critical flows, payment test coverage, staging/prod separation, SMTP switch (Resend/Postmark), RLS policy audit, Stripe webhook verification, rate limiting on auth endpoints, onboarding email sequence. Natural hook to trigger `/security-audit` as the final step.
 
 ---
 
