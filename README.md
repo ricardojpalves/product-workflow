@@ -1,8 +1,10 @@
 # Product Workflow
 
-A structured workflow for vibecoding projects — from idea to shipped — built around four foundational documents and an adversarial review loop.
+A structured workflow for vibecoding projects — from idea to shipped — built around four foundational documents, a product-triad review, and an adversarial code-audit loop.
 
 For solo builders and product people who want **clarity before code**.
+
+**Works with:** Claude Code · Codex CLI · any AI coding agent that supports the skills format.
 
 ---
 
@@ -112,26 +114,38 @@ Three layers:
 ## Installation
 
 ### Prerequisites
-- [Claude Code](https://claude.com/claude-code) installed
-- (Optional but recommended) [Codex CLI](https://platform.openai.com/docs) for `/code-audit`
+- One of: [Claude Code](https://claude.com/claude-code) or [Codex CLI](https://platform.openai.com/docs)
+- (Optional but recommended for `/code-audit`) Codex CLI even if you primarily use Claude Code — `/code-audit` uses Codex as the adversarial second opinion
 - (Optional) [Obsidian](https://obsidian.md/) with the Kanban plugin for visual status
 
 ### One-line install
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/product-workflow.git
+git clone https://github.com/ricardojpalves/product-workflow.git
 cd product-workflow
 ./install.sh
 ```
 
-This:
-1. Symlinks each skill to `~/.claude/skills/<skill-name>/`
-2. Copies `config/start-project.config.md` to `~/.claude/product-workflow.config.md`
-3. Tells you what to edit
+By default the script **auto-detects** whether you have Claude Code or Codex CLI installed and sets up skills in the right places:
+- Claude Code → `~/.claude/skills/<skill-name>/`
+- Codex CLI → `~/.agents/skills/<skill-name>/`
 
-Then restart Claude Code (or reload skills) and you're done.
+Force a specific install with flags:
+```bash
+./install.sh --claude     # Claude Code only
+./install.sh --codex      # Codex CLI only
+./install.sh --all        # Both
+```
 
-See [INSTALL.md](INSTALL.md) for details.
+The script symlinks skills (not copies) so `git pull` updates flow automatically. A starter config is installed to `~/.claude/product-workflow.config.md` and/or `~/.agents/product-workflow.config.md`.
+
+Then restart your AI coding tool to load the skills.
+
+### Manual install (for other agents)
+
+Copy `skills/<skill-name>/` into whatever directory your agent reads skills from. The skill files are plain markdown with YAML frontmatter — portable across any tool that supports the skills format (Cursor, custom setups, etc.).
+
+See [INSTALL.md](INSTALL.md) for details and troubleshooting.
 
 ---
 
