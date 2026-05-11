@@ -3,9 +3,9 @@
 ## Prerequisites
 
 - macOS or Linux (Windows via WSL should work, untested)
-- [Claude Code](https://claude.com/claude-code) installed and authenticated
+- One of: [Claude Code](https://claude.com/claude-code) or [Codex CLI](https://platform.openai.com/docs)
 - Bash or Zsh
-- (Optional) [Codex CLI](https://platform.openai.com/docs) — needed for `/code-audit`
+- (Recommended) Codex CLI for `/code-audit` (the adversarial reviewer)
 - (Optional) [Obsidian](https://obsidian.md/) with the Kanban plugin — for visual status tracking
 
 ---
@@ -13,17 +13,26 @@
 ## Quick install
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/product-workflow.git
+git clone https://github.com/ricardojpalves/product-workflow.git
 cd product-workflow
 ./install.sh
 ```
 
 The install script:
-1. Symlinks each skill to `~/.claude/skills/<skill-name>/`
-2. Copies `config/start-project.config.md` to `~/.claude/product-workflow.config.md` (only if it doesn't exist)
-3. Prints next steps
+1. Auto-detects whether you have Claude Code (`~/.claude/`) or Codex CLI (`~/.agents/`) — installs to whichever it finds, or both
+2. Symlinks each skill (so `git pull` updates flow automatically)
+3. Copies the starter config (only if not present)
+4. Prints next steps
 
-Then **restart Claude Code** so skills are picked up.
+Force a specific install with flags:
+
+```bash
+./install.sh --claude     # Claude Code only
+./install.sh --codex      # Codex CLI only
+./install.sh --all        # Force both
+```
+
+Then **restart your AI coding tool** so skills are picked up.
 
 ---
 
