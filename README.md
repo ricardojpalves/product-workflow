@@ -1,6 +1,6 @@
 # Product Workflow
 
-A structured workflow for vibecoding projects — from idea to shipped — built around four foundational documents, a product-triad review, and an adversarial code-audit loop.
+A set of skills that bring real product-management practice to vibecoding — built around four foundational documents (PRD, Architecture, AI Rules, Plan), a product-triad review, and an adversarial code-audit loop.
 
 For solo builders and product people who want **clarity before code**.
 
@@ -8,221 +8,224 @@ For solo builders and product people who want **clarity before code**.
 
 ---
 
-## The problem
+## Why this exists
 
-Vibecoding without structure leads to three predictable failures:
-- **Scope creep** — every session adds features, V1 never ships
-- **Lost context** — decisions made on Monday are forgotten by Friday
-- **Brittle quality** — security holes, dead code, no test coverage, surfaced too late
+I'm a Product Manager. I build apps using AI coding tools — *vibe coding* — and I ship real products. I'd done the formal PM work for years before that: PRDs, JTBDs, RACI tables, triad reviews with engineering and design, weekly stakeholder updates. Then I started building solo with AI, and most of that scaffolding disappeared.
 
-This workflow fixes all three by enforcing a sequence: **think clearly, then build**.
+The result was predictable. Scope crept on every project. Decisions made on Monday were forgotten by Friday. I'd merge two sessions of work and find I'd contradicted myself. The "AI does the hard part" promise was true for code, but the *thinking* — what to build, who for, what not to build — that part was on me and I'd quietly let it slip.
+
+So I built this workflow. It's not a 40-skill product-management marketplace. It's four composable skills, each doing one job, that bring the discipline I used to have on bigger teams to the solo builds I do now:
+
+1. **`/start-project`** — discovery-first kickoff that produces a PRD, an architecture doc, an AI-rules doc, and a phased plan, in that order. With a product-triad review at the end (Product, Design, Engineering critique in parallel, debate, agree, hand back a top-3 action list).
+2. **`/triad-review`** — the same triad, on-demand, for mid-project pivots and scope shifts. The "stop and think" button.
+3. **`/code-audit`** — an independent code review run by a *different* LLM (Codex CLI by default). Different model = real critique, not Claude grading its own homework.
+4. **`/status`** — a project snapshot, with daily-update and stakeholder-report modes.
+
+The framework is opinionated. It assumes you want fewer features shipped well, not more features shipped fast. It treats the **Out-of-Scope list as more important than the In-Scope list**. It refuses to let you build before deciding what you're building. None of that is novel — it's the boring, table-stakes product practice that exists everywhere except in solo vibecoding.
 
 ---
 
-## The four documents
+## What's in the box
 
-Inspired by [Don Allen III's "I Built a 19,000-Line iOS App Last Weekend"](https://substack.com/) framework, with patterns borrowed from real product management practice.
+### The four documents
 
 ```
 1. PRD          → What you're building, who for, why, and what you're NOT building
-2. architecture → Stack, folder structure, naming, data flow
-3. ai-rules     → Non-negotiables (security, quality, performance, accessibility)
-4. plan         → Phased roadmap (only after the first three are locked)
+2. Architecture → Stack, folder structure, naming, data flow
+3. AI Rules     → Non-negotiables (security, quality, performance, accessibility)
+4. Plan         → Phased roadmap (only after the first three are locked)
 ```
 
-Save everything as `.md`. Markdown is the native language of LLMs.
+Saved as `.md` in the project root. Markdown is the native language of LLMs.
 
----
+Two PRD templates:
+- **PRD-solo** — lean 5 sections for side projects, indie tools, weekend builds
+- **PRD-work** — full template with RACI, JTBDs, milestones table, stakeholder reporting for B2B / agency / multi-stakeholder projects
 
-## The four commands
+### The four commands
 
 | Command | When to use it |
 |---|---|
-| `/start-project` | New project. Runs the full discovery: brainstorm → 4 docs → triad review → kanban setup. |
-| `/status` | Anytime. Snapshot of state (in progress / blocked / queued / done) + S.P.A.R.K. or stakeholder report mode. |
-| `/code-audit` | After implementing a feature. Independent code review by **Codex CLI** (different LLM = real critique). |
-| `/triad-review` | Mid-project, when scope shifts. **PM + Design + Engineering** subagents in parallel critique current direction. |
+| `/start-project` | New project. Discovery → 4 docs → pre-mortem → triad review → kanban setup. |
+| `/status` | Anytime. Snapshot (in progress / blocked / queued / done) + S.P.A.R.K. daily mode + stakeholder report mode. |
+| `/code-audit` | After implementing a feature. Independent code review by Codex CLI. Surfaces bugs, security issues, rule violations. |
+| `/triad-review` | Mid-project, when scope shifts. PM + Design + Engineering subagents in a 3-round discussion (independent critique → cross-read → synthesis), ending in a force-ranked top-3 action list. |
 
----
+### The product triad
 
-## The product triad
+Three roles, three lenses, one product:
 
-Three roles, three lenses, one product. Inspired by [Krystian M. Frahn's product triad model](https://www.linkedin.com/pulse/product-triad-agile-ux-meet-krystian-m-frahn-cejxf):
-
-- **Product Manager** — viability, scope, business fit, success metrics
-- **Designer** — desirability, user flows, friction, accessibility
+- **Product Manager** — viability, scope, success metrics, strategic risk
+- **Designer** — desirability, user flows, friction, accessibility, coherence
 - **Engineering Lead** — feasibility, security, performance, architecture risk
 
-Both `/start-project` (at the end) and `/triad-review` (on demand) dispatch all three as parallel subagents. Each critiques from their lens. Conflicts get surfaced — the user decides.
+`/start-project` runs the triad at the end of doc creation. `/triad-review` runs it on demand. Both produce a visual table with the **top 3 actions force-ranked first**, full findings collapsed beneath, and a guided supersede sub-flow when triad conclusions contradict prior decisions.
+
+### Anti-scope-creep mechanism
+
+Every PRD has a **Scope Table** — a single visual that lists requirements with `📥 In Scope` or `❌ Out of Scope`, each with a one-line "why not yet" for the out items. This is the strongest single mechanism for stopping the slow drift that kills V1 timelines.
+
+### Pre-mortem risk classification
+
+Before triad review, the workflow asks: *"Imagine it's 6 months from now. The project failed. What killed it?"* Risks are classified as:
+
+- 🐯 **Tiger** — high likelihood + high impact (act now in Phase 0/1)
+- 📄 **Paper Tiger** — looks scary but unlikely or easily mitigated
+- 🐘 **Elephant** — slow-moving, will hit eventually if ignored
+
+Every 🐯 must have a corresponding action in the plan. The triad reviews the classification too — PM checks business risks, Design catches UX miscategorisation, Engineering catches Tigers hiding as Elephants.
 
 ---
 
-## The agentic workflow loop
+## How it works
 
-Once docs are locked and you're building:
+### Discovery with grounded suggestions
 
-```
-Direct → Implement → Verify → Commit → Update Context → Repeat
-```
+Every question the workflow asks comes with **2–3 recommendations + reasoning**, drawn from your previous answers, your CLAUDE.md / AGENTS.md preferences, and general product knowledge. You're never asked a blank question.
 
-- **Direct** — give the agent a task from `plan.md`
-- **Implement** — agent writes code
-- **Verify** — `/code-audit` runs Codex against the diff (adversarial: "audit code someone else wrote")
-- **Commit** — to GitHub. Frequently. Checkpoints save sanity.
-- **Update Context** — append to `memory.md`, update kanban, log decisions to `decisions.md`
-- **Repeat**
+Example: after you say "AI tutor for high school students," the next question doesn't ask "who's it for?" generically — it offers:
+1. Top 10% high achievers (advanced prep market)
+2. Middle 80% (largest, most underserved by current AI tools)
+3. Bottom 10% (often reached via schools, different sales motion)
 
-The hardest part is knowing when to stop. That's a creative decision, not a technical one.
+…with a recommendation and the reasoning behind it. You can pick, mix, or override.
 
----
+### Adversarial code review
 
-## Two project types
+`/code-audit` calls Codex CLI (default) or Gemini CLI to review code as "audit code someone else wrote — find what's wrong." Frame matters: a model auditing its own work is polite; a model auditing someone else's is honest. Findings come back severity-grouped:
 
-### Solo
-Lean PRD (5 sections), simplified plan, no RACI. For side projects, indie tools, weekend builds.
+- 🔴 Critical (fix before merging)
+- 🟡 Important (worth discussing)
+- 🟢 Suggestion (nice to have)
+- ✅ Verified good (explicitly checked, no issues)
 
-### Work
-Full PRD with RACI, JTBD, milestones table, stakeholder reporting. For B2B, agency, multi-stakeholder projects.
+Confirms before adding findings to Obsidian Kanban or fixing critical items. False positives don't pollute the board.
 
-`/start-project` asks upfront which path to take.
+### Living documentation
 
----
+Three layers, updated automatically as work progresses:
 
-## Anti-scope-creep mechanism
+- **Obsidian Kanban** — visual state (In Progress / Queue / Blocked / QA / Done)
+- **memory.md** — running session log, what was decided, open questions
+- **decisions.md** — architectural and product decisions with rationale; superseded decisions marked, never deleted
 
-Every PRD has a **Scope Table** — a single visual that lists requirements with `📥 In Scope` or `❌ Out of Scope`. Tempting features get listed explicitly as out-of-scope with a one-line "why not yet."
-
-This is the strongest single mechanism for preventing the slow drift that kills V1 timelines.
-
----
-
-## Status tracking
-
-Three layers:
-
-1. **Obsidian Kanban** — visual state (In Progress / Queue / Blocked / QA / Done), updated automatically as work progresses
-2. **memory.md** — running session log, what was decided, open questions
-3. **decisions.md** — architectural and product decisions with rationale, supersedes marked
-
-`/status` reads all three and outputs a snapshot. Three modes:
-- **Default snapshot** — quick visual
-- **S.P.A.R.K.** — daily personal update (Specific / Problems / Adjustments / Rationale / Key priorities)
-- **Stakeholder report** — long-form What/Who/When/How for sharing with others
+`/status` reads all three plus PRD open questions, and aggregates them with **age** so 7-day-old unresolved questions get a ⚠️ — they're a smell.
 
 ---
 
 ## Installation
 
-### Prerequisites
-- One of: [Claude Code](https://claude.com/claude-code) or [Codex CLI](https://platform.openai.com/docs)
-- (Optional but recommended for `/code-audit`) Codex CLI even if you primarily use Claude Code — `/code-audit` uses Codex as the adversarial second opinion
-- (Optional) [Obsidian](https://obsidian.md/) with the Kanban plugin for visual status
+### Claude Code
 
-### One-line install
+**Option 1 — Clone with install script (auto-detects + symlinks):**
 
 ```bash
-git clone https://github.com/ricardojpalves/product-workflow.git
+git clone https://github.com/ricardojpalves/product-workflow
 cd product-workflow
-./install.sh
+./install.sh --claude
 ```
 
-By default the script **auto-detects** whether you have Claude Code or Codex CLI installed and sets up skills in the right places:
-- Claude Code → `~/.claude/skills/<skill-name>/`
-- Codex CLI → `~/.agents/skills/<skill-name>/`
+**Option 2 — Clone directly to skills directory:**
 
-Force a specific install with flags:
 ```bash
-./install.sh --claude     # Claude Code only
-./install.sh --codex      # Codex CLI only
-./install.sh --all        # Both
+git clone https://github.com/ricardojpalves/product-workflow ~/.claude/skills/product-workflow
 ```
 
-The script symlinks skills (not copies) so `git pull` updates flow automatically. A starter config is installed to `~/.claude/product-workflow.config.md` and/or `~/.agents/product-workflow.config.md`.
+Then move or symlink each `skills/<skill-name>/` subdirectory into `~/.claude/skills/`.
 
-Then restart your AI coding tool to load the skills.
+### Codex CLI
 
-### Manual install (for other agents)
+```bash
+git clone https://github.com/ricardojpalves/product-workflow
+cd product-workflow
+./install.sh --codex
+```
 
-Copy `skills/<skill-name>/` into whatever directory your agent reads skills from. The skill files are plain markdown with YAML frontmatter — portable across any tool that supports the skills format (Cursor, custom setups, etc.).
+The script symlinks each skill into `~/.agents/skills/` and installs a starter config at `~/.agents/product-workflow.config.md`.
 
-See [INSTALL.md](INSTALL.md) for details and troubleshooting.
+### Both Claude Code and Codex CLI
+
+```bash
+./install.sh --all
+```
+
+### Other agents (Cursor, etc.)
+
+Copy `skills/<skill-name>/` into whatever directory your agent reads skills from. The skill files are plain markdown with YAML frontmatter — portable across any tool that supports the skills format.
+
+### Verify
+
+Restart your AI coding tool, then type:
+
+```
+/start-project
+```
+
+If the discovery flow starts asking questions, you're set. See [INSTALL.md](INSTALL.md) for config, Codex CLI setup, and troubleshooting.
 
 ---
 
-## Repo structure
+## Usage
+
+In any project directory:
 
 ```
-product-workflow/
-├── README.md
-├── INSTALL.md
-├── LICENSE
-├── install.sh
-├── skills/
-│   ├── start-project/
-│   │   ├── SKILL.md
-│   │   ├── questions-prd.md
-│   │   ├── questions-architecture.md
-│   │   ├── questions-rules.md
-│   │   └── triad-prompts.md
-│   ├── status/
-│   │   └── SKILL.md
-│   ├── code-audit/
-│   │   └── SKILL.md
-│   └── triad-review/
-│       └── SKILL.md
-├── templates/
-│   ├── PRD-solo.md
-│   ├── PRD-work.md
-│   ├── architecture.md
-│   ├── ai-rules.md
-│   ├── plan.md
-│   ├── memory.md
-│   ├── decisions.md
-│   ├── kanban.md
-│   └── status-report.md
-├── examples/
-│   └── (worked examples coming)
-└── config/
-    └── start-project.config.md
+/start-project    # First time — runs full discovery + triad
+/status           # Anytime — project snapshot
+/code-audit       # After implementing — independent review
+/triad-review     # Mid-project — when scope shifts or you're stuck
 ```
+
+Each command stands alone. Use only what you need.
 
 ---
 
-## Philosophy / opinions
+## Pair with `/security-audit`
 
-This workflow has strong opinions. Here they are:
+This workflow handles the *product* side. For the *security* side — IDOR, RLS policies, webhook validation, secrets, rate limiting, race conditions — pair it with [solo-builder-security-audit](https://github.com/ricardojpalves/solo-builder-security-audit).
 
-- **Clarity before code.** Spend 30–60 minutes on PRD/Architecture/Rules. It saves days of rework.
+|  | This workflow | `/security-audit` |
+|---|---|---|
+| When | Throughout the project lifecycle | Pre-launch, pre-deploy |
+| Scope | Discovery, planning, code review, status | Security and production-readiness |
+| Outputs | PRD, architecture, plan, audit findings | Security report file + chat summary |
+| Coverage | Product-management discipline | Security gaps in AI-built apps |
+
+**Recommended:** Use both. This workflow keeps you building the right thing well; `/security-audit` makes sure it's safe to ship.
+
+---
+
+## Philosophy
+
+A few opinions baked in. If you disagree with any, fork and override:
+
+- **Clarity before code.** 30–60 minutes on PRD/Architecture/Rules saves days of rework.
 - **Specificity over abstraction.** "Middle 80% of high schoolers" beats "students" every time.
 - **The Out-of-Scope list is more important than the In-Scope list.** Features you say no to define the product.
-- **Markdown over docs.** LLMs trained on it. Talk to them in their language.
-- **Adversarial review beats agreeable review.** Frame audits as "audit code someone else wrote." You'll get critique instead of compliments.
+- **Adversarial review beats agreeable review.** Frame audits as "someone else wrote this — find what's wrong." You'll get critique instead of compliments.
 - **Different LLM for code audit.** Same model can't critique itself well. Use Codex against Claude or vice versa.
-- **Suggestions with grounding, not blank questions.** Every question the workflow asks comes with 2–3 recommendations and reasoning.
-- **One PM owns the V1 list.** Solo projects: that's you. Work projects: that's the Accountable in RACI.
+- **Suggestions with grounding, not blank questions.** Every question comes with 2–3 recommendations + reasoning.
 - **Commit constantly.** Checkpoints are everything. Don't trust uncommitted state.
+- **Fewer features shipped well > more features shipped fast.** This whole workflow is a forcing function for that.
 
 ---
 
 ## Credits & inspiration
 
-- The four-document framework: [Don Allen III](https://substack.com/), creative technologist
-- The product triad model: [Krystian M. Frahn](https://www.linkedin.com/pulse/product-triad-agile-ux-meet-krystian-m-frahn-cejxf)
+- The four-document framework: [Don Allen III's "I Built a 19,000-Line iOS App Last Weekend"](https://substack.com/) (PRD → Architecture → Rules → Plan, save as `.md`, adversarial audit)
+- The product triad: [Krystian M. Frahn's product triad model](https://www.linkedin.com/pulse/product-triad-agile-ux-meet-krystian-m-frahn-cejxf) (PM + Design + Engineering as collective ownership)
 - DESIGN.md format: [Google Labs](https://github.com/google-labs-code/design.md)
-- S.P.A.R.K. daily update framework: adapted from team practice
-- The What/Who/When/How stakeholder reporting structure: adapted from team practice
-- Skill structure conventions: Anthropic's [skill authoring best practices](https://docs.claude.com/)
+- Pre-mortem classification (Tigers / Paper Tigers / Elephants): patterns from [phuryn/pm-skills](https://github.com/phuryn/pm-skills) and [product-on-purpose/pm-skills](https://github.com/product-on-purpose/pm-skills)
+- Skill structure conventions: Anthropic's skill authoring best practices
 
 ---
 
 ## Contributing
 
-Issues and PRs welcome. The skills are deliberately opinionated — fork if you want different defaults.
-
-For new skills that fit the workflow, follow the structure in `skills/start-project/`. Keep YAML frontmatter to `name` and `description`. Put heavy reference material in separate `.md` files alongside `SKILL.md`.
+The skills are deliberately opinionated. PRs welcome if they sharpen the existing skills without bloating the surface area. For new ideas, fork — different defaults serve different builders.
 
 ---
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT — use it, fork it, improve it.
