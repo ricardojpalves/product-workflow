@@ -17,10 +17,11 @@ The result was predictable. Scope crept on every project. Decisions made on Mond
 So I built this workflow. It's not a 40-skill product-management marketplace. It's four composable skills, each doing one job, that bring the discipline I used to have on bigger teams to the solo builds I do now:
 
 1. **`/start-project`** — discovery-first kickoff that produces a PRD, an architecture doc, an AI-rules doc, and a phased plan, in that order. With a product-triad review at the end (Product, Design, Engineering critique in parallel, debate, agree, hand back a top-3 action list). Includes a competitor research step before design, and a distribution question before the plan locks.
-2. **`/triad-review`** — the same triad, on-demand, for mid-project pivots and scope shifts. The "stop and think" button.
-3. **`/code-audit`** — an independent code review run by a *different* LLM (Codex CLI by default). Different model = real critique, not Claude grading its own homework.
-4. **`/status`** — a project snapshot, with daily-update, stakeholder-report, and code-health modes.
-5. **`/pre-launch`** — a launch-readiness checklist that runs before going public. Covers code quality, infrastructure, auth, payments, email, and growth basics. Final step before real users arrive.
+2. **`/brief`** — a mid-development project reconstruction that works on *any* repository. Reads code, docs, kanban, git history, and environment files to produce a complete, structured brief with source attribution on every section. The "what even is this project" command for new sessions, collaborators, and stakeholders.
+3. **`/triad-review`** — the same triad, on-demand, for mid-project pivots and scope shifts. The "stop and think" button.
+4. **`/code-audit`** — an independent code review run by a *different* LLM (Codex CLI by default). Different model = real critique, not Claude grading its own homework.
+5. **`/status`** — a project snapshot, with daily-update, stakeholder-report, and code-health modes.
+6. **`/pre-launch`** — a launch-readiness checklist that runs before going public. Covers code quality, infrastructure, auth, payments, email, and growth basics. Final step before real users arrive.
 
 The framework is opinionated. It assumes you want fewer features shipped well, not more features shipped fast. It treats the **Out-of-Scope list as more important than the In-Scope list**. It refuses to let you build before deciding what you're building. None of that is novel — it's the boring, table-stakes product practice that exists everywhere except in solo vibecoding.
 
@@ -43,11 +44,12 @@ Two PRD templates:
 - **PRD-solo** — lean 5 sections for side projects, indie tools, weekend builds
 - **PRD-work** — full template with RACI, JTBDs, milestones table, stakeholder reporting for B2B / agency / multi-stakeholder projects
 
-### The four commands
+### The commands
 
 | Command | When to use it |
 |---|---|
 | `/start-project` | New project. Discovery → 4 docs → pre-mortem → triad review → kanban setup. Includes competitor research before DESIGN.md and a distribution question before the plan locks. |
+| `/brief` | Any project, any point in development. Reads the repo as-is and produces a complete project brief — purpose, stack, features, decisions, status, open questions, security posture. Works without product-workflow docs. |
 | `/status` | Anytime. Snapshot (in progress / blocked / queued / done) + S.P.A.R.K. daily mode + stakeholder report mode + code health mode (end-of-day fragility check). |
 | `/code-audit` | After implementing a feature. Independent code review by Codex CLI. Surfaces bugs, security issues, rule violations. |
 | `/triad-review` | Mid-project, when scope shifts. PM + Design + Engineering subagents in a 3-round discussion (independent critique → cross-read → synthesis), ending in a force-ranked top-3 action list. |
@@ -91,6 +93,31 @@ Example: after you say "AI tutor for high school students," the next question do
 3. Bottom 10% (often reached via schools, different sales motion)
 
 …with a recommendation and the reasoning behind it. You can pick, mix, or override.
+
+### `/brief` — project reconstruction for any repo
+
+Run `/brief` on any project at any point in development. It reads the repository as it exists — docs, code, git history, kanban board, environment files — and produces a structured brief from what it finds.
+
+**Works without product-workflow docs.** If there's no PRD or architecture doc, it infers from README, package.json, folder structure, and git history. Every section shows where the information came from.
+
+**What the brief contains:**
+- What it is and the problem it solves
+- Target users
+- Full stack and integration map (external services, env vars)
+- Feature list with status (Shipped / In Progress / Planned) and scope
+- Current project status from kanban + recent git activity
+- Key decisions with rationale
+- Pricing and monetisation model
+- Open questions with age
+- Security posture (last audit date and score)
+- Design system summary
+- Folder structure with purpose annotations
+- External resources (deployed URL, repo, design files)
+- Sources used — every file read, with what it contributed
+
+**Source attribution throughout.** Every section links to the file it was pulled from. If information was inferred rather than stated, it's marked *(inferred from [file])*. If a section can't be populated, it tells you which file to create.
+
+**Output:** Full brief written to `brief-[project-name]-[YYYY-MM-DD].md` in the project root. Chat shows a one-screen summary.
 
 ### Adversarial code review
 
@@ -173,9 +200,11 @@ In any project directory:
 
 ```
 /start-project    # First time — runs full discovery + triad
+/brief            # Any project, any time — reconstruct a full project brief from the repo
 /status           # Anytime — project snapshot
 /code-audit       # After implementing — independent review
 /triad-review     # Mid-project — when scope shifts or you're stuck
+/pre-launch       # Before going public — launch-readiness checklist
 ```
 
 Each command stands alone. Use only what you need.
