@@ -75,7 +75,7 @@ Project kickoff workflow. Builds the four foundational documents (PRD → Archit
    → Then trigger DESIGN.md questionnaire (per user's CLAUDE.md global rule)
 
 9. Final memory + decisions seed
-   → Create memory.md with kickoff entry
+   → Create `memory.md` with a `Last updated:` stamp, a `Files:` line (`log=log.md, decisions=decisions.md, index=decisions-index.md`) and four sections: Now; In progress / Next; Open questions and blockers; Where to find things. Create `log.md` with the kickoff session entry, `decisions-index.md` with its header, and add `@memory.md` to the project's CLAUDE.md.
    → Create decisions.md with any decisions made during discovery
 
 10. Confirmation
@@ -119,6 +119,8 @@ All from `templates/` in the product-workflow repo:
 - `plan.md`
 - `memory.md`
 - `decisions.md`
+- `log.md`
+- `decisions-index.md`
 - `kanban.md`
 
 ## Sub-references

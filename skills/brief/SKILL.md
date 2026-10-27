@@ -29,8 +29,8 @@ Read everything available. For each file found, note its path — these become t
 - `AI-RULES.md` / `ai-rules.md` — non-negotiables, constraints
 - `PLAN.md` / `plan.md` — phases, roadmap
 - `DESIGN.md` / `design.md` — visual identity, tokens
-- `memory.md` — latest session state, open questions
-- `decisions.md` — architectural and product decisions
+- `memory.md`: current state (Now, In progress, Open questions)
+- `decisions.md` via `decisions-index.md` when present (search the index; open only matching decisions)
 - `features.md` — V1/V2 feature split
 - `app-concept.md` — positioning, monetisation, competitive landscape
 - `brand.md` — brand identity

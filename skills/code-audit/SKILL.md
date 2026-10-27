@@ -140,7 +140,7 @@ Be direct. Don't soften critique. Don't be polite. The code is broken — find w
 📋 Next step:
   → Fix 🔴 critical issues now? (y/n)
   → Add 🔴 findings to Kanban? (y/n)
-  → Log audit to memory.md? (y/n)
+  → Log audit to log.md? (y/n)
 ```
 
 ## Cost & latency notes

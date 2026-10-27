@@ -27,8 +27,8 @@ Project status snapshot. Reads project state files and outputs a structured repo
 
 In parallel:
 1. Project's Obsidian Kanban board (path from config — usually `/Users/Local Projects/Obsidian-Kanban/<project>/<project>-board.md`)
-2. Project's `memory.md` (last 3 entries — pull "Open questions" section from each)
-3. Project's `decisions.md` (last 5 decisions + scan for any unresolved decisions like "Status: ⚠️ Open")
+2. Project's `memory.md` (Now, In progress and Open questions sections; if it has no `Last updated:` stamp, it is an older format: use its last 3 entries)
+3. Project's `decisions-index.md` if present (last 5 lines and any non-active status), else the last 5 decisions in `decisions.md`
 4. Project's `plan.md` (current phase)
 5. Project's `PRD.md` (Open Questions section)
 6. (If exists) Project's `ai-rules.md` (any rules marked as TODO / unconfirmed)
@@ -102,7 +102,7 @@ K — Key priorities for today:
    [Main focus. Any help needed.]
 ```
 
-Pull P / A / R from memory.md + decisions.md (last 24h). Pull S from kanban (Done since yesterday). Pull K from In Progress + top of Queue.
+Pull P / A / R from log.md (entries from the last 24h; fall back to memory.md for projects not yet migrated) and decisions-index.md. Pull S from kanban (Done since yesterday). Pull K from In Progress + top of Queue.
 
 ## Output: Stakeholder report
 

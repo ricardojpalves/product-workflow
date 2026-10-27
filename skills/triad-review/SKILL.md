@@ -31,8 +31,8 @@ Read in parallel before dispatching:
 - PRD.md
 - architecture.md
 - ai-rules.md
-- decisions.md (last 10 — needed to detect supersede candidates)
-- memory.md (last 3 sessions)
+- decisions-index.md (search it; open only the decisions a supersede may touch)
+- memory.md (current state)
 
 User provides the **specific question or change** to review:
 - "We're considering adding offline mode — what would that break?"
@@ -82,7 +82,7 @@ User provides the **specific question or change** to review:
    → If scope changes → update PRD.md (Scope Table)
    → If architecture shifts → update architecture.md
    → If rules need adjustment → update ai-rules.md
-   → Always: log the review + outcome to memory.md
+   → Always: log the review and outcome to log.md
 ```
 
 ## Triad prompts
