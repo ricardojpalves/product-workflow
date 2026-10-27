@@ -7,7 +7,7 @@ description: Use when capturing a mature project's knowledge as a portable .clau
 
 ## Overview
 
-Runs a three-phase process that turns a codebase's accumulated knowledge into a complete `.claude/skills/` library, authored by the most capable model available, so that cheaper models, future sessions, or a human developer can carry the project forward at the same standard. Based on `tomicz/fable-5-train-opus-skills-after-it-retires`; full notes in the wiki at `wiki/sources/ai-skills-tools/fable-skill-library-prompt.md` (PowerBrainWiki).
+Runs a three-phase process that turns a codebase's accumulated knowledge into a complete `.claude/skills/` library, authored by the most capable model available, so that cheaper models, future sessions, or a human developer can carry the project forward at the same standard. Based on `tomicz/fable-5-train-opus-skills-after-it-retires`.
 
 **Core principle:** models are rented; the skill files are owned. Capture the strong model's judgment in durable artifacts before access ends.
 
