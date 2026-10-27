@@ -202,7 +202,7 @@ _Source: [PRD.md / memory.md]_
 ## Security Posture
 [Last audit date and score if available. Key findings still open.]
 
-_Source: [security-audit-[date].md — if no audit file found, note: "No audit on record — run /security-audit before launch"]_
+_Source: [security-audit-[date].md — if no audit file found, note: "No audit on record — run /security-audit-ra before launch"]_
 
 ---
 

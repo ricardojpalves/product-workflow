@@ -56,7 +56,7 @@ Run each item and mark: ✅ PASS / ⚠️ NEEDS ATTENTION / ❌ FAIL / N/A
 - [ ] **Analytics installed** — PostHog, Umami, or equivalent. You need to know if users are reaching activation events.
 
 ### Security (summary)
-- [ ] **`/security-audit` run** — for a full security pass (IDOR, webhook validation, secrets, CORS, CSP, injection, AI/LLM security, mobile security), run `/security-audit` as the final step before launch.
+- [ ] **`/security-audit-ra` run** — for a full security pass (IDOR, webhook validation, secrets, CORS, CSP, injection, AI/LLM security, mobile security), run `/security-audit-ra` as the final step before launch.
 
 ---
 
@@ -92,4 +92,4 @@ Ready to launch? [Yes / No — with reason]
 | Treating this as optional | Every item on this list came from a real app breaking in production |
 | Running it the day of launch | Do it a week before — leaves time to fix things |
 | Skipping payments section "because it's simple" | Race conditions in billing are invisible until exploited |
-| Skipping `/security-audit` | This checklist covers operational readiness; security audit covers attack surface — they're different |
+| Skipping `/security-audit-ra` | This checklist covers operational readiness; security audit covers attack surface — they're different |

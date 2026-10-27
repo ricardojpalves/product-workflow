@@ -167,7 +167,7 @@ Ask these four questions, one at a time, reviewing relevant files for each:
 
 After output: ask "Want me to add any of these to the Kanban Queue?" Confirm before adding.
 
-**Key principle:** This is not a full audit. It's a daily smell-check. If a finding looks serious (production risk), suggest running `/security-audit` or `/code-audit` for a deeper pass.
+**Key principle:** This is not a full audit. It's a daily smell-check. If a finding looks serious (production risk), suggest running `/security-audit-ra` or `/code-audit` for a deeper pass.
 
 ---
 
